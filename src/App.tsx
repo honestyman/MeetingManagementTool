@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, Router, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
@@ -16,6 +16,8 @@ import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import ResetPassword from './pages/Authentication/ResetPassword';
+import ChannelPage from './pages/Channel/ChannelPage';
+import MeetingDetail from './pages/Channel/Meeting/MeetingDetail';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,7 +37,7 @@ function App() {
     <>
       <Routes>
         <Route
-          index
+          path="/"
           element={
             <>
               <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
@@ -43,6 +45,16 @@ function App() {
             </>
           }
         />
+        <Route
+          path="/channel"
+          element={
+              <ChannelPage />
+          }
+        >
+          {/* <Route index element={<MeetingDetail/>}/> */}
+          {/* <Route path='meeting/:id' element={<MeetingDetail/>}/> */}
+        </Route>
+
         <Route
           path="/calendar"
           element={

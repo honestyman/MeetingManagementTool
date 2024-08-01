@@ -3,7 +3,7 @@ import CheckboxFive from '../../components/Checkboxes/CheckboxFive';
 import CheckboxFour from '../../components/Checkboxes/CheckboxFour';
 import CheckboxOne from '../../components/Checkboxes/CheckboxOne';
 import CheckboxThree from '../../components/Checkboxes/CheckboxThree';
-import CheckboxTwo from '../../components/Checkboxes/CheckboxTwo';
+import CheckboxTwo from '../../components/Checkboxes/CheckboxAllSheet';
 import SwitcherFour from '../../components/Switchers/SwitcherFour';
 import SwitcherOne from '../../components/Switchers/SwitcherOne';
 import SwitcherThree from '../../components/Switchers/SwitcherThree';
