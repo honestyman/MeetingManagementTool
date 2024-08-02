@@ -1,22 +1,27 @@
 import { useState } from 'react';
 
-const CheckboxOneSheet = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+interface CheckboxProps {
+  id: number;
+  isChecked: boolean;
+  onCheckChange: (id: number) => void;
+}
+
+const CheckboxOneSheet: React.FC<CheckboxProps> = ({id, isChecked, onCheckChange}) => {
+  // const [isChecked, setIsChecked] = useState<boolean>(false);
 
   return (
     <div>
       <label
-        htmlFor="checkboxOneSheet"
+        htmlFor={`checkboxOneSheet_${id}`}
         className="flex cursor-pointer select-none items-center"
       >
         <div className="relative">
           <input
             type="checkbox"
-            id="checkboxOneSheet"
+            id={`checkboxOneSheet_${id}`}
             className="sr-only"
-            onChange={() => {
-              setIsChecked(!isChecked);
-            }}
+            checked={isChecked}
+            onChange={() => onCheckChange(id)}
           />
           <div
             className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${

@@ -1,8 +1,16 @@
 import { useState } from 'react';
 
-const CheckboxAllSheet = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+interface CheckboxAllSheetProps {
+  onCheckAllChange: (isChecked: boolean) => void;
+}
 
+const CheckboxAllSheet : React.FC<CheckboxAllSheetProps> = ({ onCheckAllChange }) => {
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const handleCheckboxChange = () => {
+    const newCheckedState = !isChecked;
+    setIsChecked(newCheckedState);
+    onCheckAllChange(newCheckedState);
+  };
   return (
     <div>
       <label
@@ -14,9 +22,7 @@ const CheckboxAllSheet = () => {
             type="checkbox"
             id="checkboxAllSheet"
             className="sr-only"
-            onChange={() => {
-              setIsChecked(!isChecked);
-            }}
+            onChange={handleCheckboxChange}
           />
           <div
             className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${

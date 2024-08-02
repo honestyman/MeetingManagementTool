@@ -1,41 +1,96 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoMdAdd } from 'react-icons/io';
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 interface MeetingDetailProps {
   id: number | undefined;
 }
+interface argendaModel {
+  id: number,
+  type: string, 
+  title: string, 
+  content: string, 
+  purpose: string, 
+  deadline: string, 
+  decision: string, 
+  etc: string
+}
 const MeetingDetail: React.FC<MeetingDetailProps> = ({ id }) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [meetingArrays, setMeetingArrays] = useState<Array<{ value: string }>>([
-    { value: 'discuss' }
-  ]);
+  const [meetingArrays, setMeetingArrays] = useState<Array<argendaModel>>([]);
+  const [meetTitle, setMeetTitle] = useState("")
 
-  const meetingTypeItems : Array<{ value: string; label: string }> = [
+  const meetingTypeItems : Array<any> = [
     {
       value : 'discuss',
-      label : '議論'
+      label : '議論',
     },
     {
       value : 'share',
-      label : '共有'
+      label : '共有',
     },
     {
       value : 'work',
-      label : 'タスク'
+      label : 'タスク',
     }
   ]
+
+  const maxId =(array : Array<argendaModel>)=>{
+    if (array.length !== 0) {
+      let maxId = array[0].id;
+      for (let index = 1; index < array.length; index++) {
+        if (array[index].id > maxId) {
+          maxId = array[index].id
+        }
+      }
+      return maxId + 1;
+    } else {
+      return 1;
+    }
+  }
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
   };
-  const createAgenda = (value:String) => {
-    setMeetingArrays([...meetingArrays, {value}]);
+  const meetingLabel = (value:string) => {
+    let result = "";
+    switch (value) {
+      case "discuss":
+        result = "議論"
+        break;
+      case "share":
+        result = "共有"
+        break;
+      default:
+        result = "タスク"
+        break;
+    }
+    return result;
+  };
+  const createAgenda = (value:string) => {
+    setMeetingArrays([...meetingArrays, {
+      id:maxId(meetingArrays), 
+      type:value, 
+      title:'', 
+      content:'', 
+      purpose:'', 
+      deadline:'', 
+      decision:'', 
+      etc:''}]);
     setIsDropdownVisible(!isDropdownVisible);
   }
+  const removeArgendar = (argendaId:number) => {
+    setMeetingArrays(meetingArrays.filter(agenda => agenda.id !== argendaId));
+  }
   useEffect(()=>{
-    console.log("meetingArray", meetingArrays)
+    setMeetTitle(`Meeting${id}`)
+  },[id])
+
+  useEffect(()=>{
+    console.log("meetingArrays", meetingArrays)
   },[meetingArrays])
+
   return (
     <div className='flex h-full w-full flex-col overflow-y-hidden'>
       <div className='w-full flex flex-wrap justify-between items-center rounded-md bg-white duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 shadow mt-1 xl:px-10 px-5 py-5'>
@@ -58,11 +113,52 @@ const MeetingDetail: React.FC<MeetingDetailProps> = ({ id }) => {
       </div>
 
       <div className='w-full h-[800px] flex justify-between'>
-        <div className='xl:w-[75%] md:w-[60%] h-full flex flex-col rounded-md bg-white duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 shadow mt-1 px-10'>
+        <div className='xl:w-[75%] md:w-[60%] h-full flex flex-col rounded-md bg-white duration-300 ease-linear overflow-y-auto dark:bg-boxdark lg:translate-x-0 shadow mt-1 px-10 pb-30'>
           <div className='w-full flex justify-start items-end pt-5'>
-            <span className='text-xl font-bold'>
-              Meeting1
-            </span>
+            <input value={meetTitle} onChange={(e)=>setMeetTitle(e.target.value)} className='w-full text-xl font-bold outline-none dark:bg-boxdark'/>
+          </div>
+          <div className='w-full flex-col justify-start items-end pt-5'>
+            {
+              meetingArrays.length !== 0 && meetingArrays.map((meeting, index)=>{
+                return <div key={index} className='flex flex-col items-start w-full px-5 py-5 mb-5 rounded-md shadow-2'>
+                  <div className='flex justify-between w-full'>
+                    <div className='flex items-center mb-2 w-[80%]'>
+                      <p className='bg-primary text-white px-2 py-1 rounded text-sm tracking-widest'>{meetingLabel(meeting.type)}</p>
+                      <div className='w-[80%] flex ml-2'>
+                        <p>{meeting.title}</p>
+                        <input className='w-full text-xl font-bold outline-none dark:bg-boxdark'/>
+                      </div>
+                    </div>
+                    <Link
+                      to="#"
+                      onClick={()=>removeArgendar(meeting.id)}
+                    >
+                      <RiDeleteBin5Line className='w-5 h-5' />
+                    </Link>
+                  </div>
+                  <div className='w-full flex my-1 items-center'>
+                    <p>内容: {meeting.content}</p>
+                    <input className='w-[90%] ml-2 outline-none dark:bg-boxdark'/>
+                  </div>
+                  <div className='w-full flex my-1 items-center'>
+                    <p>ゴール: {meeting.purpose}</p>
+                    <input className='w-[80%] ml-2 outline-none dark:bg-boxdark'/>
+                  </div>
+                  <div className='w-full flex my-1 items-center'>
+                    <p>期日: {meeting.deadline}</p>
+                    <input className='w-[80%] ml-2 outline-none dark:bg-boxdark'/>
+                  </div>
+                  <div className='w-full flex my-1 items-center'>
+                    <p>決定事項: {meeting.decision}</p>
+                    <input className=' w-[80%] ml-2 outline-none dark:bg-boxdark'/>
+                  </div>
+                  <div className='w-full flex my-1 items-center'>
+                    <p>備考: {meeting.etc}</p>
+                    <input className='w-[80%] ml-2 outline-none dark:bg-boxdark'/>
+                  </div>
+                </div>
+              })
+            }
           </div>
           <div className='w-full flex-col justify-start items-end pt-5'>
             <Link
@@ -78,7 +174,7 @@ const MeetingDetail: React.FC<MeetingDetailProps> = ({ id }) => {
                 {
                   meetingTypeItems.map((item, index)=>{
                     return (
-                      <Link key={index} to="#" onClick={()=>createAgenda(item.label)} className="block px-4 py-2 text-center text-gray-700 hover:bg-gray-100">{item.label}</Link>
+                      <Link key={index} to="#" onClick={()=>createAgenda(item.value)} className="block px-4 py-2 text-center text-gray-700 hover:bg-gray-100">{item.label}</Link>
                     );                    
                   })
                 }
