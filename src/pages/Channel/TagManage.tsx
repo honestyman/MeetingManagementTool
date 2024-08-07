@@ -8,10 +8,24 @@ interface TagManage {
 }
 const TagManage: React.FC<TagManage> = ({ id }) => {
   const [modalTag, setModalTag] = useState(false);
+  const [showMeeting, setShowMeeting] = useState(true);
+  const [showTask, setShowTask] = useState(false);
+  const [showWiki, setShowWiki] = useState(false);
   return (
     <div className='w-full px-[5px]'>
       <div className='flex justify-start items-center font-bold h-[60px] my-[3px] px-5 w-full rounded-md bg-white duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 shadow'>
         <span className='text-xl'>Channel Name</span>
+        <div className='flex mx-3'>
+          {
+            showMeeting && <Link className='mx-2' to="">会議</Link>
+          }
+          {
+            showTask && <Link className='mx-2' to={"task/"+id}>タスク</Link>
+          }
+          {
+            showWiki && <Link className='mx-2' to={"wiki/"+id}>Wiki</Link>
+          }
+        </div>
         <Link
           onClick={()=>setModalTag(true)}
           to="#"
@@ -21,7 +35,16 @@ const TagManage: React.FC<TagManage> = ({ id }) => {
           タブ管理
         </Link>
       </div>
-      <AddTag modalTag = {modalTag} setModalTag={ setModalTag } />
+      <AddTag 
+        modalTag = {modalTag} 
+        showMeeting = {showMeeting} 
+        showTask = {showTask} 
+        showWiki = {showWiki} 
+        setModalTag={ setModalTag }
+        setShowMeeting = {setShowMeeting} 
+        setShowTask = {setShowTask}
+        setShowWiki = {setShowWiki} 
+        />
     </div>
   );
 };

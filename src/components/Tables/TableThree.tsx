@@ -1,6 +1,6 @@
-import { Package } from '../../types/package';
+import { Task } from '../../types/task';
 
-const packageData: Package[] = [
+const packageData: Task[] = [
   {
     name: 'Free package',
     price: 0.0,

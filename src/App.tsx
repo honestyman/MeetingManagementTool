@@ -18,6 +18,8 @@ import Buttons from './pages/UiElements/Buttons';
 import ResetPassword from './pages/Authentication/ResetPassword';
 import ChannelPage from './pages/Channel/ChannelPage';
 import MeetingDetail from './pages/Channel/Meeting/MeetingDetail';
+import MeetingManage from './pages/Channel/Meeting/MeetingManage';
+import TaskManage from './pages/Channel/Task/TaskManage';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,8 +53,8 @@ function App() {
               <ChannelPage />
           }
         >
-          {/* <Route index element={<MeetingDetail/>}/> */}
-          {/* <Route path='meeting/:id' element={<MeetingDetail/>}/> */}
+          <Route index element={<MeetingManage/>}/>
+          <Route path='task/:id' element={<TaskManage/>}/>
         </Route>
 
         <Route

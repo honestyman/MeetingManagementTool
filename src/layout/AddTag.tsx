@@ -12,15 +12,18 @@ import AddLinkModal from './AddLinkModal';
 
 interface AddTagProps {
   modalTag: boolean;
+  showMeeting: boolean;
+  showTask: boolean;
+  showWiki: boolean;
   setModalTag: (arg: boolean) => void;
+  setShowMeeting: (arg: boolean) => void;
+  setShowTask: (arg: boolean) => void;
+  setShowWiki: (arg: boolean) => void;
 }
 
-const AddTag = ({ modalTag, setModalTag }: AddTagProps) => {
+const AddTag = ({ modalTag, showMeeting, showTask, showWiki, setModalTag, setShowMeeting, setShowTask, setShowWiki }: AddTagProps) => {
   const location = useLocation();
   const { pathname } = location;
-  const [showMeeting, setShowMeeting] = useState<boolean>(false);
-  const [showTask, setShowTask] = useState<boolean>(false);
-  const [showWiki, setShowWiki] = useState<boolean>(false);
   const [showAddLinkModal, setShowAddLinkModal] = useState<boolean>(false);
   const [links, setLinks] = useState<{title:string, link:string}[]>([]);
 
